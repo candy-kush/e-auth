@@ -1,0 +1,64 @@
+body {
+  font-family: "Roboto", sans-serif;
+}
+
+.spinner {
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top: 3px solid white;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  animation: spin 1s linear infinite;
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 8px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.disabled-fade {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.toast {
+  position: fixed;
+  top: 20px;
+  right: -100%;
+  background-color: #ffffff;
+  color: #048429;
+  font-weight: 500;
+  font-size: 16px;
+  padding: 12px 20px;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  opacity: 0;
+  border-top: 4px solid #048429;
+  transform: translateX(100%);
+  transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+.toast.show {
+  right: 20px;
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.toast.hidden {
+  opacity: 0;
+  transform: translateX(100%);
+}
+
+.toast.error {
+  border-top: 4px solid #a30606;
+  color: #a30606;
+}
+
+.hidden {
+  display: none;
+}

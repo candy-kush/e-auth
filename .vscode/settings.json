@@ -1,0 +1,32 @@
+{
+  "editor.semanticHighlighting.enabled": true,
+  "editor.tokenColorCustomizations": {
+    "textMateRules": [
+      {
+        "scope": "entity.name.function",
+        "settings": {
+          "foreground": "#87ae39" // Method/function calls
+        }
+      },
+      {
+        "scope": "keyword",
+        "settings": {
+          "foreground": "#c52e2e" // Keywords like if, return, etc.
+        }
+      },
+      {
+        "scope": "string",
+        "settings": {
+          "foreground": "#099a4a"
+        }
+      },
+      {
+        "scope": "comment",
+        "settings": {
+          "foreground": "#676E95",
+          "fontStyle": "italic"
+        }
+      }
+    ]
+  }
+}

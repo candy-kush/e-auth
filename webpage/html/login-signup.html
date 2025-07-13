@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Signup Page</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/styles.css" />
+</head>
+
+<body class="bg-gray-100 min-h-screen">
+  <div class="flex justify-center px-4 py-8 overflow-y-auto min-h-screen">
+    <div class="bg-white rounded-lg shadow-lg p-8 w-full max-w-md">
+      <div id="errorMessage" class="text-red-500 text-center text-sm mb-2 hidden"></div>
+
+      <div class="relative flex items-center bg-white rounded-lg p-1 mb-5">
+        <span id="highlight"
+          class="absolute top-1 left-1 h-[calc(100%-0.5rem)] w-1/2 bg-blue-500 rounded-md transition-transform duration-50 ease-in-out"></span>
+        <button id="loginTab"
+          class="relative z-10 w-1/2 py-2 rounded-md text-sm font-medium transition-colors duration-50">
+          Login
+        </button>
+        <button id="signupTab"
+          class="relative z-10 w-1/2 py-2 rounded-md text-sm font-medium transition-colors duration-50">
+          Sign Up
+        </button>
+      </div>
+
+      <form id="loginForm" novalidate>
+        <!-- Email -->
+        <div class="mb-4">
+          <input type="email" id="email" aria-describedby="emailError" placeholder="Email"
+            class="w-full border border-gray-300 p-2 rounded-md focus:outline-none focus:border focus:border-gray-500"
+            required />
+          <p class="text-sm text-red-500 mt-1 hidden" id="emailError">
+            Please enter a valid email address
+          </p>
+        </div>
+
+        <!-- Password -->
+        <div class="mb-4">
+          <input type="password" id="password" aria-describedby="passwordError" placeholder="Password"
+            class="w-full border border-gray-300 p-2 rounded-md focus:outline-none focus:border focus:border-gray-500"
+            required />
+          <p class="text-sm text-red-500 mt-1 hidden" id="passwordError">
+            Password must be at least 8 characters long
+          </p>
+        </div>
+
+        <div class="mb-4">
+          <button type="submit" id="submitBtn"
+            class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 w-full flex justify-center items-center">
+            Log In
+          </button>
+        </div>
+
+        <div class="text-center mb-4">
+          <p class="text-gray-600">
+            <a href="#" class="text-blue-500 hover:underline">Forgot Password?</a>
+          </p>
+        </div>
+
+        <div class="flex items-center justify-between mb-4">
+          <hr class="flex-grow border-gray-300" />
+          <span class="mx-2 text-gray-600">OR</span>
+          <hr class="flex-grow border-gray-300" />
+        </div>
+
+        <div class="mb-4">
+          <button id="googleLoginBtn" type="button"
+            class="bg-white text-sm font-medium border border-gray-300 px-4 py-2 rounded-md hover:bg-gray-100 w-full flex items-center justify-center gap-1"
+            onclick="oauth2SignIn()">
+            <svg class="w-5 h-5 inline-block align-middle mr-2" viewBox="-0.5 0 48 48"
+              xmlns="http://www.w3.org/2000/svg" fill="none">
+              <path fill="#FBBC05"
+                d="M9.82727273,24 C9.82727273,22.4757333 10.0804318,21.0144 10.5322727,19.6437333 L2.62345455,13.6042667 C1.08206818,16.7338667 0.213636364,20.2602667 0.213636364,24 C0.213636364,27.7365333 1.081,31.2608 2.62025,34.3882667 L10.5247955,28.3370667 C10.0772273,26.9728 9.82727273,25.5168 9.82727273,24">
+              </path>
+              <path fill="#EB4335"
+                d="M23.7136364,10.1333333 C27.025,10.1333333 30.0159091,11.3066667 32.3659091,13.2266667 L39.2022727,6.4 C35.0363636,2.77333333 29.6954545,0.533333333 23.7136364,0.533333333 C14.4268636,0.533333333 6.44540909,5.84426667 2.62345455,13.6042667 L10.5322727,19.6437333 C12.3545909,14.112 17.5491591,10.1333333 23.7136364,10.1333333">
+              </path>
+              <path fill="#34A853"
+                d="M23.7136364,37.8666667 C17.5491591,37.8666667 12.3545909,33.888 10.5322727,28.3562667 L2.62345455,34.3946667 C6.44540909,42.1557333 14.4268636,47.4666667 23.7136364,47.4666667 C29.4455,47.4666667 34.9177955,45.4314667 39.0249545,41.6181333 L31.5177727,35.8144 C29.3995682,37.1488 26.7323182,37.8666667 23.7136364,37.8666667">
+              </path>
+              <path fill="#4285F4"
+                d="M46.1454545,24 C46.1454545,22.6133333 45.9318182,21.12 45.6113636,19.7333333 L23.7136364,19.7333333 L23.7136364,28.8 L36.3181818,28.8 C35.6879545,31.8912 33.9724545,34.2677333 31.5177727,35.8144 L39.0249545,41.6181333 C43.3393409,37.6138667 46.1454545,31.6490667 46.1454545,24">
+              </path>
+            </svg>
+            Continue with Google
+          </button>
+        </div>
+
+      </form>
+      <form id="signupForm" novalidate>
+        <div class="mb-4">
+          <input type="text" id="name" aria-describedby="nameError" placeholder="Name"
+            class="w-full border border-gray-300 p-2 rounded-md focus:outline-none focus:border focus:border-gray-500"
+            required />
+          <p class="text-sm text-red-500 mt-1 hidden" id="nameError">
+            Please enter your name
+          </p>
+        </div>
+
+        <!-- Email -->
+        <div class="mb-4">
+          <input type="email" id="register-email" aria-describedby="emailError" placeholder="Email"
+            class="w-full border border-gray-300 p-2 rounded-md focus:outline-none focus:border focus:border-gray-500"
+            required />
+          <p class="text-sm text-red-500 mt-1 hidden" id="register-emailError">
+            Please enter a valid email address
+          </p>
+        </div>
+
+        <!-- Password -->
+        <div class="mb-4">
+          <input type="password" id="register-password" aria-describedby="passwordError" placeholder="Password"
+            class="w-full border border-gray-300 p-2 rounded-md focus:outline-none focus:border focus:border-gray-500"
+            required />
+          <p class="text-sm text-red-500 mt-1 hidden" id="register-passwordError">
+            Password must be at least 8 characters long
+          </p>
+        </div>
+
+        <!-- Age -->
+        <div class="mb-4">
+          <input type="number" id="age" aria-describedby="ageError" placeholder="Age (12-110)"
+            class="w-full border border-gray-300 p-2 rounded-md focus:outline-none focus:border focus:border-gray-500"
+            required />
+          <p class="text-sm text-red-500 mt-1 hidden" id="ageError">
+            Required age 12-110 years
+          </p>
+        </div>
+
+        <!-- Gender -->
+        <div class="mb-4">
+          <select id="gender" aria-describedby="genderError"
+            class="w-full border border-gray-300 p-2 rounded-md text-gray-500 focus:outline-none focus:border focus:border-gray-500"
+            required>
+            <option value="" disabled selected>Select Gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+          </select>
+          <p class="text-sm text-red-500 mt-1 hidden" id="genderError">
+            Please select your gender
+          </p>
+        </div>
+
+        <div class="mb-4">
+          <button type="submit" id="submitBtn"
+            class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 w-full flex justify-center items-center">
+            Sign Up
+          </button>
+        </div>
+
+        <div class="flex items-center justify-between mb-4">
+          <hr class="flex-grow border-gray-300" />
+          <span class="mx-2 text-gray-600">OR</span>
+          <hr class="flex-grow border-gray-300" />
+        </div>
+
+        <div class="mb-4">
+          <button id="googleLoginBtn" type="button"
+            class="bg-white text-sm font-medium border border-gray-300 px-4 py-2 rounded-md hover:bg-gray-100 w-full flex items-center justify-center gap-1"
+            onclick="oauth2SignIn()">
+            <svg class="w-5 h-5 inline-block align-middle mr-2" viewBox="-0.5 0 48 48"
+              xmlns="http://www.w3.org/2000/svg" fill="none">
+              <path fill="#FBBC05"
+                d="M9.82727273,24 C9.82727273,22.4757333 10.0804318,21.0144 10.5322727,19.6437333 L2.62345455,13.6042667 C1.08206818,16.7338667 0.213636364,20.2602667 0.213636364,24 C0.213636364,27.7365333 1.081,31.2608 2.62025,34.3882667 L10.5247955,28.3370667 C10.0772273,26.9728 9.82727273,25.5168 9.82727273,24">
+              </path>
+              <path fill="#EB4335"
+                d="M23.7136364,10.1333333 C27.025,10.1333333 30.0159091,11.3066667 32.3659091,13.2266667 L39.2022727,6.4 C35.0363636,2.77333333 29.6954545,0.533333333 23.7136364,0.533333333 C14.4268636,0.533333333 6.44540909,5.84426667 2.62345455,13.6042667 L10.5322727,19.6437333 C12.3545909,14.112 17.5491591,10.1333333 23.7136364,10.1333333">
+              </path>
+              <path fill="#34A853"
+                d="M23.7136364,37.8666667 C17.5491591,37.8666667 12.3545909,33.888 10.5322727,28.3562667 L2.62345455,34.3946667 C6.44540909,42.1557333 14.4268636,47.4666667 23.7136364,47.4666667 C29.4455,47.4666667 34.9177955,45.4314667 39.0249545,41.6181333 L31.5177727,35.8144 C29.3995682,37.1488 26.7323182,37.8666667 23.7136364,37.8666667">
+              </path>
+              <path fill="#4285F4"
+                d="M46.1454545,24 C46.1454545,22.6133333 45.9318182,21.12 45.6113636,19.7333333 L23.7136364,19.7333333 L23.7136364,28.8 L36.3181818,28.8 C35.6879545,31.8912 33.9724545,34.2677333 31.5177727,35.8144 L39.0249545,41.6181333 C43.3393409,37.6138667 46.1454545,31.6490667 46.1454545,24">
+              </path>
+            </svg>
+            Continue with Google
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div id="toast" class="toast hidden"></div>
+
+  <script src="../javascript/utils.js"></script>
+  <script src="../javascript/login-signup.js"></script>
+</body>
+
+</html>
