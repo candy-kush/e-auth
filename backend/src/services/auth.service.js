@@ -21,11 +21,16 @@ const googleCallback = async (req) => {
     const oauth2 = google.oauth2({ auth: client, version: "v2" });
     const { data } = await oauth2.userinfo.get();
     console.log("User Data: ", data);
+    const existingUser = await UserSecondary.findOne({ email: data.email });
+    if(existingUser && !existingUser.isLoggedIn) {
+      throw new AppError(httpStatus.status.BAD_REQUEST, "Session already active with this google account, please logout of other sessions to continue");
+    }
+
     const user = await User.create({
       name: data.given_name + " " + data.family_name,
       email: data.email,
       gender: data.gender,
-      activeSessionCount: 1,
+      activeSessionCount: existingUser?.activeSessionCount ? existingUser?.activeSessionCount + 1 : 1,
     });
 
     const sessionId = uuidv4();
@@ -50,6 +55,11 @@ const googleCallback = async (req) => {
 
   } catch (error) {
     console.log("error in googleCallback method: ", error);
+    if(error.statusCode) {
+      throw new AppError(error.statusCode, error.message);
+    } else {
+      throw new AppError(httpStatus.status.INTERNAL_SERVER_ERROR, "Something went wrong, please try again after sometimes");
+    }
   }
 };
 
@@ -148,7 +158,7 @@ const sendEmailOtp = async (req) => {
 
     console.log(`Sending OTP on ${email} : ${otp}`);
     sendEmail(email, 'OTP for email verification', emailBody, otp);
-    await redisClient.set(`otp:${email}:${otp}`, otp, {
+    await redisClient.set(`otp:${email}`, otp, {
       EX: 300,
     });
 
@@ -173,13 +183,13 @@ const verifyEmailOtp = async (req) => {
     console.log(`Verifying OTP ${otp} sent on email ${email}`);
     if(!email || !otp) throw new AppError(httpStatus.status.BAD_REQUEST, "Invalid request");
 
-    const savedOtp = await redisClient.get(`otp:${email}:${otp}`);
+    const savedOtp = await redisClient.get(`otp:${email}`);
     if (!savedOtp || savedOtp !== otp) {
       throw new AppError(httpStatus.status.FORBIDDEN, "Invalid or expired OTP");
     }
 
     console.log("OTP verified");
-    await redisClient.del(`otp:${email}:${otp}`);
+    await redisClient.del(`otp:${email}`);
     return {
       code: 200, 
       verified: true,
@@ -202,8 +212,12 @@ const login = async (req) => {
     console.log("Login attempted for email: ", email);
     if(!email || !password) throw new AppError(httpStatus.status.FORBIDDEN, 'Login credentials required to continue');
     
+    let user;
+    user = await UserSecondary.findOne({ email: email });
+    if(!user) throw new AppError(httpStatus.status.FORBIDDEN, 'New to our portal? Please register yourself');
+
     const encryptedPassword = encryptPlainTextUsingKEYAndIV(password);
-    const user = await UserSecondary.findOne({ email: email, password: encryptedPassword });
+    user = await UserSecondary.findOne({ email: email, password: encryptedPassword });
 
     if (!user) throw new AppError(httpStatus.status.FORBIDDEN, 'Invalid Credentials');
     if (user.blacklisted) throw new AppError(httpStatus.status.FORBIDDEN, 'Account has been blacklisted');
@@ -236,6 +250,7 @@ const login = async (req) => {
       message: `Hi ${user.name}, Welcome back!`,
       tokens: tokens,
       sessionId: sessionId,
+      redirectURL: "http://127.0.0.1:5500/webpage/html/main-page.html",
     };
     
   } catch (error) {
@@ -289,6 +304,7 @@ const register = async (req) => {
       tokens: tokens,
       sessionId: sessionId,
       message: "Congratulations! Welcome to the team 🎊",
+      redirectURL: "http://127.0.0.1:5500/webpage/html/main-page.html",
     };
     
   } catch (error) {

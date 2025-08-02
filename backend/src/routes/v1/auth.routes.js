@@ -6,8 +6,8 @@ const router = express.Router();
 router.route("/google/callback").get(authController.googleCallback);
 router.route("/refresh-token").get(authController.refreshToken);
 
-router.route("/otp/email/send").get(jwtAuth(), authController.sendEmailOtp);
-router.route("/otp/email/verify").get(jwtAuth(), authController.verifyEmailOtp);
+router.route("/otp/email/send").get(authController.sendEmailOtp);
+router.route("/otp/email/verify").get(authController.verifyEmailOtp);
 
 router.route("/register").post(authController.register);
 router.route("/login").post(validate(loginValidation), authController.login);

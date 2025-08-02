@@ -21,11 +21,11 @@
         <span id="highlight"
           class="absolute top-1 left-1 h-[calc(100%-0.5rem)] w-1/2 bg-blue-500 rounded-md transition-transform duration-50 ease-in-out"></span>
         <button id="loginTab"
-          class="relative z-10 w-1/2 py-2 rounded-md text-sm font-medium transition-colors duration-50">
+          class="relative z-10 w-1/2 py-2 rounded-md text-sm font-medium transition-colors duration-50 text-white">
           Login
         </button>
         <button id="signupTab"
-          class="relative z-10 w-1/2 py-2 rounded-md text-sm font-medium transition-colors duration-50">
+          class="relative z-10 w-1/2 py-2 rounded-md text-sm font-medium transition-colors duration-50 text-slate-600">
           Sign Up
         </button>
       </div>
@@ -52,7 +52,7 @@
         </div>
 
         <div class="mb-4">
-          <button type="submit" id="submitBtn"
+          <button type="submit" id="loginSubmitBtn"
             class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 w-full flex justify-center items-center">
             Log In
           </button>
@@ -72,7 +72,7 @@
 
         <div class="mb-4">
           <button id="googleLoginBtn" type="button"
-            class="bg-white text-sm font-medium border border-gray-300 px-4 py-2 rounded-md hover:bg-gray-100 w-full flex items-center justify-center gap-1"
+            class="google-oauth-btn bg-white text-sm font-medium border border-gray-300 px-4 py-2 rounded-md hover:bg-gray-100 w-full flex items-center justify-center gap-1"
             onclick="oauth2SignIn()">
             <svg class="w-5 h-5 inline-block align-middle mr-2" viewBox="-0.5 0 48 48"
               xmlns="http://www.w3.org/2000/svg" fill="none">
@@ -94,7 +94,7 @@
         </div>
 
       </form>
-      <form id="signupForm" novalidate>
+      <form id="signupForm" class="hidden" novalidate>
         <div class="mb-4">
           <input type="text" id="name" aria-describedby="nameError" placeholder="Name"
             class="w-full border border-gray-300 p-2 rounded-md focus:outline-none focus:border focus:border-gray-500"
@@ -150,7 +150,7 @@
         </div>
 
         <div class="mb-4">
-          <button type="submit" id="submitBtn"
+          <button type="submit" id="signupSubmitBtn"
             class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 w-full flex justify-center items-center">
             Sign Up
           </button>
@@ -164,7 +164,7 @@
 
         <div class="mb-4">
           <button id="googleLoginBtn" type="button"
-            class="bg-white text-sm font-medium border border-gray-300 px-4 py-2 rounded-md hover:bg-gray-100 w-full flex items-center justify-center gap-1"
+            class="google-oauth-btn bg-white text-sm font-medium border border-gray-300 px-4 py-2 rounded-md hover:bg-gray-100 w-full flex items-center justify-center gap-1"
             onclick="oauth2SignIn()">
             <svg class="w-5 h-5 inline-block align-middle mr-2" viewBox="-0.5 0 48 48"
               xmlns="http://www.w3.org/2000/svg" fill="none">
@@ -187,7 +187,39 @@
       </form>
     </div>
   </div>
+
+  <div id="loader" class="hidden fixed inset-0 bg-white bg-opacity-80 flex items-center justify-center z-[99999]">
+    <div class="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+  </div>
+
   <div id="toast" class="toast hidden"></div>
+
+  <!-- OTP Modal -->
+  <div id="otpModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-80 text-center">
+      <h2 class="text-lg font-semibold mb-4">Verify Your Email</h2>
+      <p class="text-gray-600 mb-3 text-sm">Enter the OTP sent to your email</p>
+
+      <input type="text" id="otpInput" maxlength="6"
+        class="border border-gray-300 rounded-md p-2 w-full mb-3 text-center tracking-widest text-lg"
+        placeholder="123456" />
+
+      <div id="otpError" class="hidden text-red-500 text-sm mb-2">Invalid OTP</div>
+
+      <button id="otpSubmitBtn"
+        class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 w-full mb-3">Verify</button>
+
+      <!-- Countdown + Resend -->
+      <div class="text-gray-600 text-sm mb-2">
+        <span id="otpTimer">Resend available in 30s</span>
+      </div>
+      <button id="resendOtpBtn" class="text-blue-500 text-sm hover:underline hidden">Resend OTP</button>
+
+      <button id="otpCancelBtn" class="text-gray-600 text-sm hover:underline mt-2">Cancel</button>
+    </div>
+  </div>
+
+
 
   <script src="../javascript/utils.js"></script>
   <script src="../javascript/login-signup.js"></script>

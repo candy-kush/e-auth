@@ -55,8 +55,8 @@ body {
 }
 
 .toast.error {
-  border-top: 4px solid #a30606;
-  color: #a30606;
+  border-top: 4px solid #dd4646;
+  color: #d90101;
 }
 
 .hidden {
